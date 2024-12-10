@@ -1,0 +1,21 @@
+{
+  "name": "new-fishing",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "copyfiles --flat dist/assets/main.js webflow",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "vite": "^6.0.1",
+    "vite-plugin-mkcert": "^1.17.6"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "swiper": "^11.1.15"
+  }
+}
