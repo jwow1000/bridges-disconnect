@@ -1,8 +1,10 @@
 import * as d3 from 'd3';
+import {links} from "./links.js";
+
+const overlay = 'https://cdn.prod.website-files.com/66e5c9799b48938aa3491deb/67929538a94c8a3c19d7f9eb_Thane%20Maps_Jan2025.svg';
+const bgPng = 'https://cdn.prod.website-files.com/66e5c9799b48938aa3491deb/679295395639bb12a3b8d16c_Thane%20Maps_Jan2025_BG.jpg';
 
 
-const overlay = 'https://cdn.prod.website-files.com/66e5c9799b48938aa3491deb/67572e44c0a6bd9cf93e0c34_bridge-map-buttons.svg';
-const bgPng = 'https://cdn.prod.website-files.com/66e5c9799b48938aa3491deb/67572e4663fe1bd5e68912a2_bridge-map-bg.png';
 
 // detect if a touch device
 const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -22,17 +24,21 @@ d3.xml( overlay )
     // Select the SVG element using D3 to use D3 methods
     const d3Svg = d3.select(svg);
 
+    // resize the svg
+    d3Svg
+      .attr("viewBox", "0 0 4383 3914") 
+      .attr("preserveAspectRatio", "xMidYMid meet") // Ensures no distortion
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("x", )
     // Insert the PNG as an <image> element at the start of the SVG
     d3Svg.insert("image", ":first-child") // Inserts as the first child
       .attr("href", bgPng) // Path to your PNG
-      .attr("x", 0)
+      .attr("x", "0")
       .attr("y", 0)
       .attr("class", "bgPng")
-      
-      // .attr("transform", "scale(0.95)")
-      .attr("width", "100%")
-      .attr("height", "100%");
-    
+      // .attr("width", "20%") 
+      // .attr("height", "20%") 
     // Append the SVG to the DOM
     const svgContainer = document.querySelector(".svg-container-bridges");
     console.log("svgContainer", svgContainer, svg)
@@ -46,9 +52,6 @@ d3.xml( overlay )
     // select the bgPng
     const bg = d3.select('.bgPng');
 
-    // select all the groups in the overlay
-    const theGroups = d3Svg.selectAll('g');
-    console.log("the groups", theGroups)
     // Define a drop shadow filter
     const defs = d3Svg.append("defs");
 
@@ -75,18 +78,29 @@ d3.xml( overlay )
     feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
     // Add mouseover and mouseout to each group
-    theGroups
+    // select all the groups in the overlay by using the id field in links object
+    
+    const theGroups = d3Svg.selectAll('g');
+    console.log("the groups", theGroups)
+
+    Object.entries(links).forEach(([id, { link }]) => {
+      // Select the group by ID
+      d3.select(`#${id}`)
       .on("mouseover", function () {
         d3.select(this).attr("filter", "url(#drop-shadow)");
       })
       .on("mouseout", function () {
         d3.select(this).attr("filter", null); // Remove the filter
       })
-      .on("click", function () {
-        // match the group id to the link object, open new tab
-        console.log("hhaha", this.id)
+      .on("click", () => {
+        // Open the link in a new tab
+        window.open(link, "_blank");
       })
-
+      .style("cursor", "pointer"); // Add a pointer cursor to indicate interactivity
+    });
+    
+    
+    
     
     // get the info
 
