@@ -14,11 +14,11 @@ export const links = {
     link: "https://www.google.com/maps/place/Vashi+bridge+gateway/@19.0586014,72.957685,17z/data=!4m6!3m5!1s0x3be7c76dc4d9eddd:0x78b51058fbd1ad4b!8m2!3d19.0583497!4d72.9616883!16s%2Fg%2F11ty243htq?entry=tts"
   },
 
-  "vashi-2": {
+  "vashi-3": {
     link: "https://www.google.com/maps/place/Vitawa+to+Kopri+Sky+Walk/@19.060915,72.9677929,3a,75y,256.25h,77.45t/data=!3m8!1e1!3m6!1sAF1QipPwd5x_jV1IBu4Wzb43sMo2G_h0fCMNbitWOpE7!2e10!3e11!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipPwd5x_jV1IBu4Wzb43sMo2G_h0fCMNbitWOpE7%3Dw203-h100-k-no-pi-3.3651142-ya115.779686-ro-10.588126-fo100!7i5376!8i2688!4m6!3m5!1s0x3be7b90900aaa4dd:0x9a60407590f084f!8m2!3d19.1875678!4d72.9821784!16s%2Fg%2F11str9tfgn?entry=tts"
   },
 
-  "vashi-1": {
+  "vashi-2": {
     link: "https://www.google.com/maps/place/Vitawa+to+Kopri+Sky+Walk/@19.0605305,72.9643117,3a,75y,324.22h,73.42t/data=!3m8!1e1!3m6!1sAF1QipP8XkHvhF_PNy4dFqpF1IKOyo1aud8iMVyznkJy!2e10!3e11!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipP8XkHvhF_PNy4dFqpF1IKOyo1aud8iMVyznkJy%3Dw203-h100-k-no-pi-0-ya54.81088-ro-0-fo100!7i6080!8i3040!4m6!3m5!1s0x3be7b90900aaa4dd:0x9a60407590f084f!8m2!3d19.1875678!4d72.9821784!16s%2Fg%2F11str9tfgn?entry=tts"
   },
 

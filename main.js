@@ -86,10 +86,10 @@ d3.xml( overlay )
     Object.entries(links).forEach(([id, { link }]) => {
       // Select the group by ID
       d3.select(`#${id}`)
-      .on("mouseover", function () {
+      .on("mouseover touchstart", function () {
         d3.select(this).attr("filter", "url(#drop-shadow)");
       })
-      .on("mouseout", function () {
+      .on("mouseout touchend", function () {
         d3.select(this).attr("filter", null); // Remove the filter
       })
       .on("click", () => {
