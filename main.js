@@ -52,30 +52,8 @@ d3.xml( overlay )
     // select the bgPng
     const bg = d3.select('.bgPng');
 
-    // Define a drop shadow filter
-    const defs = d3Svg.append("defs");
-
-    const filter = defs.append("filter")
-      .attr("id", "drop-shadow")
-      .attr("filterUnits", "userSpaceOnUse") // Prevents bounding box adjustment
-      .attr("x", "-50%") // Expand filter area
-      .attr("y", "-50%")
-      .attr("width", "200%") // Ensure enough space for the glow
-      .attr("height", "200%");
-
-    filter.append("feGaussianBlur")
-      .attr("in", "SourceGraphic")
-      .attr("stdDeviation", 5) // Controls the blur level
-      .attr("result", "coloredBlur");
     
-    filter.append("feOffset")
-      .attr("dx", 3) // Horizontal offset
-      .attr("dy", 3) // Vertical offset
-      .attr("result", "coloredBlur");
 
-    const feMerge = filter.append("feMerge");
-    feMerge.append("feMergeNode").attr("in", "offsetBlur");
-    feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
     // Add mouseover and mouseout to each group
     // select all the groups in the overlay by using the id field in links object
@@ -84,115 +62,42 @@ d3.xml( overlay )
     console.log("the groups", theGroups)
 
     Object.entries(links).forEach(([id, { link }]) => {
-      // Select the group by ID
-      d3.select(`#${id}`)
-      .on("mouseover touchstart", function () {
-        d3.select(this).attr("filter", "url(#drop-shadow)");
-      })
-      .on("mouseout touchend", function () {
-        d3.select(this).attr("filter", null); // Remove the filter
-      })
-      .on("click", () => {
-        // Open the link in a new tab
-        window.open(link, "_blank");
-      })
-      .style("cursor", "pointer"); // Add a pointer cursor to indicate interactivity
+      const group = d3.select(`#${id}`);
+      
+      // Calculate the bounding box for the group
+      const bbox = group.node().getBBox();
+      group
+        .style("transform-origin", "center center")  // Set transform origin to center
+        .style("transform-box", "fill-box")          // Use element's fill box as reference
+        .style("transition", "transform 1s ease") // Smooth transition
+        .style("filter", "drop-shadow(15px 15px 15px rgba(0, 0, 0, 0))")
+        // .append("rect")
+        // .attr("x", bbox.x)
+        // .attr("y", bbox.y + bbox.height/4)
+        // .attr("width", bbox.width)
+        // .attr("height", bbox.height/3)
+        // .style("fill", "transparent") // Invisible rectangle
+        // .style("pointer-events", "all") // Ensure it captures mouse/touch events
+        .on("mouseenter touchstart", function () {
+          d3.select(this)
+            .style("transform", "scale(1.2)") 
+            .style("filter", "drop-shadow(15px 15px 5px rgba(0, 0, 0, 1))")
+        })
+        .on("mouseleave touchend", function () {
+          setTimeout(() => {
+            d3.select(this)
+              .style("transform", "scale(1.0)")
+              .style("filter", "drop-shadow(15px 15px 15px rgba(0, 0, 0, 0))")
+          }, 1000);
+        })
+        .on("click", () => {
+          // Open the link in a new tab
+          window.open(link, "_blank");
+        })
+        .style("cursor", "pointer"); // Add a pointer cursor to indicate interactivity
+    
     });
-    
-    
-    
-    
-    // get the info
-
-    // // then add the event listeners
-    // // detect when mouse is over item
-    // info.forEach( ( element ) => {
-    //   // find the match to the current element 
-    //   const theMatch = theGroups.filter(function () {
-    //     return this.id.toLowerCase() === element.idMatch.toLowerCase();
-    //   });
-
-    //   // add mouseover event to the buttons
-    //   // if touch device use a click state, if not use mousein/mouseout 
-    //   const enter = isTouchDevice ? "click" : "mouseenter";
-    //   const leave = isTouchDevice ? "click" : "mouseleave"; 
-      
-    //   // if not touch device use hover for preview
-    //   if( theMatch ) {
-    //     theMatch
-    //       .on( enter, function(event) {
-    //         if( cardHoverState === 0 ) {
-    //           // fade out background
-    //           bg.transition()
-    //             .duration(1000) 
-    //             .ease(d3.easeLinear) 
-    //             .style("opacity", 0.2); 
-    //           // fade out all buttons
-    //           fadeOut( theMatch );
-  
-    //           // make the card visible
-    //           cardTitle.innerText = element.title;
-    //           card.style.opacity = "100";
-              
-    //           // set the global state
-    //           cardHoverState = 1;
-    //         } 
-    //       })
-    //       .on( leave, function(event) {
-    //         // Hide the blur layer and reset the stroke and opacity
-    //         bg.transition()
-    //           .duration(1000) 
-    //           .ease(d3.easeLinear) 
-    //           .style("opacity", 1); 
-            
-    //         fadeIn();
-    //         card.style.opacity = "0";
-
-    //         // set the global state
-    //         if( cardHoverState === 1 ) {
-    //           cardHoverState = 0;
-    //         }
-      
-    //       })
-    //       .on( "click", function(event){
-    //         if( cardHoverState === 1 ) {
-    //           card.style.opacity = "0";
-              
-    //           // set the global state
-    //           cardHoverState = 2;
-              
-    //           // select the full story
-    //           const theStory = document.querySelector(`#${element.selectMatch}`);
-    //           if( theStory ) {
-    //             theStory.style.pointerEvents = "auto";          
-    //             theStory.style.display = "block";
-    //           }
-              
-    //         }
-            
-    //       })
-        
-    //   }
-    // })
-    // // add event listener to close full-story on click
-    // fullStories.forEach((story) => {
-    //   story.addEventListener("click", (event) => {
-    //     if( cardHoverState === 2 ) {
-    //       // const images = document.querySelectorAll('.dyn-images');
-    //       // const cont = document.querySelector('.full-img-container');
-    //       // // remove the pictures
-    //       // images.forEach((item) => {
-    //       //   cont.removeChild( item );
-    //       // });
-    //       // hide the stories
-    //       hideStories();
-          
-    //       cardHoverState = 0;
-    //     }
-    //   }); 
-
-
-    // });
+   
     
   })
 .catch(error => console.error("Error loading the SVG:", error));
