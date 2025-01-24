@@ -63,7 +63,8 @@ d3.xml( overlay )
 
     Object.entries(links).forEach(([id, { link }]) => {
       const group = d3.select(`#${id}`);
-      
+      let delay = null;
+
       // Calculate the bounding box for the group
       const bbox = group.node().getBBox();
       group
@@ -79,12 +80,16 @@ d3.xml( overlay )
         // .style("fill", "transparent") // Invisible rectangle
         // .style("pointer-events", "all") // Ensure it captures mouse/touch events
         .on("mouseenter touchstart", function () {
+          clearTimeout( delay );
           d3.select(this)
             .style("transform", "scale(1.2)") 
             .style("filter", "drop-shadow(15px 15px 5px rgba(0, 0, 0, 1))")
         })
         .on("mouseleave touchend", function () {
-          setTimeout(() => {
+          console.log("mouse left!")
+          clearTimeout( delay );
+          delay = setTimeout(() => {
+            
             d3.select(this)
               .style("transform", "scale(1.0)")
               .style("filter", "drop-shadow(15px 15px 15px rgba(0, 0, 0, 0))")
